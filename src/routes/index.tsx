@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+
 import { WarriorProvider } from "@/lib/warrior";
 import { Loader, Nav } from "@/components/kg/Shell";
 import { Hero } from "@/components/kg/Hero";
@@ -11,6 +13,7 @@ import { Story } from "@/components/kg/Story";
 import { Final, Memory, Progress, Sponsor } from "@/components/kg/Finale";
 
 const TITLE = "Kathmandu Gorkhas — Become the 12th Warrior";
+
 const DESC =
   "Three Cities. One Soul. An interactive fan experience for the Kathmandu Gorkhas of the Nepal Premier League.";
 
@@ -38,21 +41,35 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <WarriorProvider>
       <Loader />
+
       <Nav />
 
       <main>
         <Hero />
+
         <Valley />
+
         <Warrior />
+
         <Lab />
+
         <Oracle />
+
         <Jersey />
+
         <Story />
+
         <Progress />
+
         <Memory />
+
         <Sponsor />
       </main>
 
