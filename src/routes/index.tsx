@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { WarriorProvider } from "@/lib/warrior";
@@ -41,8 +41,30 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  useLayoutEffect(() => {
+    // Prevent the browser from restoring the previous scroll position.
+    window.history.scrollRestoration = "manual";
+
+    // Start exactly at the top of the Hero.
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+
+    // Some browsers restore scroll after the first paint,
+    // so force it once more on the next frame.
+    const frame = window.requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant",
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
