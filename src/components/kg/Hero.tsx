@@ -61,10 +61,6 @@ export function Hero() {
 
         setMuted(false);
       } catch {
-        /*
-         * Browsers such as Chrome may block audible autoplay.
-         * In that case, start muted so the anthem is ready.
-         */
         try {
           audio.muted = true;
           await audio.play();
