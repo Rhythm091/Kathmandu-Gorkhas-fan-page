@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
+
 import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () => {
@@ -8,7 +9,11 @@ export const getRouter = () => {
   const router = createRouter({
     routeTree,
     context: { queryClient },
-    scrollRestoration: true,
+
+    // Always let the homepage control its own starting position.
+    scrollRestoration: false,
+    scrollRestorationBehavior: "instant",
+
     defaultPreloadStaleTime: 0,
   });
 
