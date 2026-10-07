@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Volume2, VolumeX } from "lucide-react";
-import { Btn, Prototype } from "./primitives";
+
+import heroValley from "@/assets/hero-valley.jpg";
+
+import { Btn } from "./primitives";
 
 const ANTHEM_SRC =
   "/Kathmandu%20Gorkhas%20Anthem%20-%20The%20Elements.mp3";
@@ -56,18 +59,28 @@ export function Hero() {
 
     const startAnthem = async () => {
       try {
-        // Default behavior: start music with sound.
+        // Try audible autoplay first.
         await audio.play();
 
         setMuted(false);
       } catch {
+        /*
+         * Chrome and other browsers may block
+         * audible autoplay until the visitor interacts.
+         *
+         * Start muted instead so the anthem can
+         * begin automatically where permitted.
+         */
         try {
           audio.muted = true;
           await audio.play();
 
           setMuted(true);
         } catch (error) {
-          console.error("Could not start Gorkhas anthem:", error);
+          console.error(
+            "Could not start Gorkhas anthem:",
+            error,
+          );
         }
       }
     };
@@ -118,7 +131,7 @@ export function Hero() {
       {/* HERO IMAGE */}
       <img
         ref={img}
-        src="src/assets/hero-valley.jpg"
+        src={heroValley}
         alt="Kathmandu Durbar Square temples beneath the Himalaya at dusk"
         width={1920}
         height={1088}
@@ -129,7 +142,9 @@ export function Hero() {
 
       {/* OVERLAYS */}
       <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/35 to-transparent" />
+
       <div className="absolute inset-0 bg-gradient-to-r from-background/55 via-background/10 to-transparent" />
+
       <div className="absolute inset-0 bg-black/5" />
 
       {/* HERO CONTENT */}
@@ -163,8 +178,8 @@ export function Hero() {
           className="hero-item mt-6 max-w-md text-base text-foreground/80 md:text-lg"
           style={{ animationDelay: "0.55s" }}
         >
-          Kathmandu. Lalitpur. Bhaktapur. One team, one dream — and a place in
-          the stands with your name on it.
+          Kathmandu. Lalitpur. Bhaktapur. One team, one dream — and a place
+          in the stands with your name on it.
         </p>
 
         <div
@@ -190,7 +205,7 @@ export function Hero() {
         <a
           href="#valley"
           aria-label="Scroll to the Valley"
-          className="group hidden size-10 items-center justify-center rounded-full border border-gold/20 bg-background/25 text-gold/70 backdrop-blur-md transition-all duration-300 hover:border-gold/50 hover:bg-background/50 hover:text-gold hover:scale-105 md:flex"
+          className="group hidden size-10 items-center justify-center rounded-full border border-gold/20 bg-background/25 text-gold/70 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-gold/50 hover:bg-background/50 hover:text-gold md:flex"
         >
           <ArrowDown className="size-4 transition-transform duration-300 group-hover:translate-y-0.5" />
         </a>
@@ -199,9 +214,11 @@ export function Hero() {
         <button
           type="button"
           onClick={toggleMute}
-          aria-label={muted ? "Unmute Gorkhas anthem" : "Mute Gorkhas anthem"}
+          aria-label={
+            muted ? "Unmute Gorkhas anthem" : "Mute Gorkhas anthem"
+          }
           title={muted ? "Unmute anthem" : "Mute anthem"}
-          className="group relative flex size-10 items-center justify-center rounded-full border border-gold/25 bg-background/35 text-gold backdrop-blur-md transition-all duration-300 hover:border-gold/60 hover:bg-background/60 hover:text-gold hover:scale-105 hover:shadow-[0_0_20px_-8px_var(--gold)]"
+          className="group relative flex size-10 items-center justify-center rounded-full border border-gold/25 bg-background/35 text-gold backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-gold/60 hover:bg-background/60 hover:text-gold hover:shadow-[0_0_20px_-8px_var(--gold)]"
         >
           {muted ? (
             <VolumeX className="size-[15px] opacity-80 transition-opacity group-hover:opacity-100" />
@@ -209,7 +226,6 @@ export function Hero() {
             <Volume2 className="size-[15px] transition-transform duration-300 group-hover:scale-110" />
           )}
 
-          {/* Music active indicator */}
           {!muted && (
             <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-gold shadow-[0_0_8px_var(--gold)]" />
           )}
